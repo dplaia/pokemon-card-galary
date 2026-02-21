@@ -148,6 +148,7 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     font-family: Roboto, sans-serif;
     font-size: 0.9rem;
+    display: flex;
     gap: 8px;
     padding: 10px;
     width: 100%;

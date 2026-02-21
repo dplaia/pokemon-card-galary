@@ -173,8 +173,8 @@
         }
         main {
                 max-width: 100vw;
-                padding-left: 1rem;
-                padding-right: 1rem;
+                padding-left: 0;
+                padding-right: 0;
         }
   }
 
