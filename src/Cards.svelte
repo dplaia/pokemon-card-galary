@@ -21,7 +21,7 @@
 <style>
 	.card-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(var(--card-min-width, 300px), 1fr));
 		grid-gap: 50px 2vw;
 		transform-style: preserve-3d;
 		height: 100%;
