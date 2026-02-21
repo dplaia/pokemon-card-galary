@@ -38,8 +38,7 @@
 
   let back_img = back;
   let front_img = "";
-  let img_base = img.startsWith("http") ? "" : "https://images.pokemontcg.io/";
-
+  let img_base = "";
 
   let thisCard;
   let repositionTimer;

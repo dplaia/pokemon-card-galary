@@ -23,15 +23,15 @@
   // context/environment props
   export let showcase = false;
 
-  const server = import.meta.env.VITE_CDN;
+  const server = "https://poke-holo.simey.me";
   /**
    * Shiny Vault Card (starts with sv)
    */
-  const isShiny = isDefined(number) && number.toLowerCase().startsWith( "sv" );
+  const isShiny = isDefined(number) && String(number).toLowerCase().startsWith( "sv" );
   /**
    Trainer / Galar Gallery Card (not shiny)
    */
-  const isGallery = isDefined(number) && !!number.match(/^[tg]g/i);
+  const isGallery = isDefined(number) && !!String(number).match(/^[tg]g/i);
   /**
    Alternate Art Card (not shiny / gallery)
    */
@@ -49,10 +49,10 @@
     if ( isDefined(rarity) && rarity.startsWith( "Trainer Gallery" ) ) {
       rarity = rarity.replace( /Trainer Gallery\s*/, "" );
     }
-    if ( isDefined(rarity) && rarity.includes( "Rare Holo V" ) && isDefined(subtypes) && subtypes.includes("VMAX") ) {
+    if ( isDefined(rarity) && rarity.includes( "Rare Holo V" ) && (subtypes || []).includes("VMAX") ) {
       rarity = "Rare Holo VMAX";
     }
-    if ( isDefined(rarity) && rarity.includes( "Rare Holo V" ) && isDefined(subtypes) && subtypes.includes("VSTAR") ) {
+    if ( isDefined(rarity) && rarity.includes( "Rare Holo V" ) && (subtypes || []).includes("VSTAR") ) {
       rarity = "Rare Holo VSTAR";
     }
   }
@@ -61,15 +61,15 @@
     if ( id === "swshp-SWSH076" || id === "swshp-SWSH077" ) {
       rarity = "Rare Secret";
 
-    } else if ( isDefined(subtypes) && subtypes.includes("V") ) {
+    } else if ( (subtypes || []).includes("V") ) {
       rarity = "Rare Holo V";
-    } else if ( isDefined(subtypes) && subtypes.includes("V-UNION") ) {
+    } else if ( (subtypes || []).includes("V-UNION") ) {
       rarity = "Rare Holo VUNION";
-    } else if ( isDefined(subtypes) && subtypes.includes("VMAX") ) {
+    } else if ( (subtypes || []).includes("VMAX") ) {
       rarity = "Rare Holo VMAX";
-    } else if ( isDefined(subtypes) && subtypes.includes("VSTAR") ) {
+    } else if ( (subtypes || []).includes("VSTAR") ) {
       rarity = "Rare Holo VSTAR";
-    } else if ( isDefined(subtypes) && subtypes.includes("Radiant") ) {
+    } else if ( (subtypes || []).includes("Radiant") ) {
       rarity = "Radiant Rare";
     }
   }
@@ -85,6 +85,9 @@
   }
 
   function cardImage () {
+    if ( isDefined( id ) ) {
+      return `/images/cards/${id}.png`;
+    }
     if ( isDefined( img ) ) {
       return img;
     }
