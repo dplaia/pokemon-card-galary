@@ -276,7 +276,8 @@
       "swsh12/tg02/holo/rainbow",
       "swsh11/tg05/holo/rainbow",
       "swsh12/138/holo/sunpillar",
-      "swsh7/110/holo/sunpillar"
+      "swsh7/110/holo/sunpillar",
+      "pgo/011/holo/radiantholo"
     ];
 
     if (missingFoilMasks.includes(`${fSet}/${fNumber}/${etch}/${style}`)) {
