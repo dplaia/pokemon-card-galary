@@ -2,6 +2,7 @@
   import { spring } from "svelte/motion";
   import { onMount } from "svelte";
   import { activeCard } from "../stores/activeCard.js";
+  import { activeCardId, rarityOverride } from "../stores/rarityOverride.js";
   import { orientation, resetBaseOrientation } from "../stores/orientation.js";
   import { clamp, round, adjust } from "../helpers/Math.js";
 
@@ -64,6 +65,7 @@
   let showcaseTimerStart;
   let showcaseTimerEnd;
   let showcaseRunning = showcase;
+  let debugCardEffects = false;
 
   const endShowcase = () => {
     if (showcaseRunning) {
@@ -172,8 +174,12 @@
   const activate = (e) => {
     if ($activeCard && $activeCard === thisCard) {
       $activeCard = undefined;
+      $activeCardId = null;
+      $rarityOverride = "";
     } else {
       $activeCard = thisCard;
+      $activeCardId = id;
+      $rarityOverride = "";
       resetBaseOrientation();
       // @ts-ignore
       gtag("event", "select_item", {
@@ -192,11 +198,6 @@
       });
 
     }
-  };
-
-  const deactivate = (e) => {
-    interactEnd();
-    $activeCard = undefined;
   };
 
   const reposition = (e) => {
@@ -361,15 +362,33 @@
 
   const imageLoader = (e) => {
     loading = false;
-    if ( mask || foil ) {
+  };
+
+  $: {
+    if (mask || foil) {
       foilStyles = `
     --mask: url(${mask});
     --foil: url(${foil});
       `;
+    } else {
+      foilStyles = ``;
     }
-  };
+  }
+
+  $: {
+    if (debugCardEffects && $activeCardId === id) {
+      console.debug("[Card Effect Debug] Applied effect props", {
+        id,
+        rarity,
+        mask,
+        foil,
+      });
+    }
+  }
 
   onMount(() => {
+
+    debugCardEffects = window.localStorage.getItem("debugCardEffects") === "1";
 
     // set the front image on mount so that
     // the lazyloading can work correctly
@@ -443,7 +462,7 @@
       on:click={activate}
       on:pointermove={interact}
       on:mouseout={interactEnd}
-      on:blur={deactivate}
+      on:blur={interactEnd}
       aria-label="Expand the Pokemon Card; {name}."
       tabindex="0"
       >

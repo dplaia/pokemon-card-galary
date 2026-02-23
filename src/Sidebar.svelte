@@ -1,9 +1,28 @@
 <script>
+  import { activeCardId, rarityOverride } from "./lib/stores/rarityOverride.js";
+
   export let minWidth = 300;
   
   const MIN_CARD_WIDTH = 150;
   const MAX_CARD_WIDTH = 500;
   const STEP = 50;
+
+  const rarities = [
+    'Common',
+    'Uncommon',
+    'Rare Holo',
+    'Rare Holo Cosmos',
+    'Radiant Rare',
+    'Trainer Gallery Rare Holo',
+    'Rare Holo V',
+    'Rare Ultra',
+    'Rare Rainbow',
+    'Rare Holo VMAX',
+    'Rare Holo VSTAR',
+    'Amazing Rare',
+    'Rare Shiny',
+    'Rare Secret'
+  ];
 
   function increaseSize() {
     if (minWidth < MAX_CARD_WIDTH) {
@@ -19,6 +38,7 @@
 
   function resetSize() {
     minWidth = 300;
+    $rarityOverride = "";
   }
 </script>
 
@@ -26,6 +46,19 @@
   <h3>Gallery Controls</h3>
   
   <div class="controls">
+    {#if $activeCardId}
+      <div class="control-group active-card-controls">
+        <label for="rarity-select" class="label highlight">Card Edition</label>
+        <select id="rarity-select" bind:value={$rarityOverride}>
+          <option value="">Default Edition</option>
+          {#each rarities as rarity}
+            <option value={rarity}>{rarity}</option>
+          {/each}
+        </select>
+        <small>Applies to selected card.</small>
+      </div>
+    {/if}
+
     <div class="control-group">
       <div id="card-size-label" class="label">Card Size</div>
       <div class="buttons" role="group" aria-labelledby="card-size-label">
@@ -99,6 +132,47 @@
     color: rgba(255, 255, 255, 0.7);
     text-transform: uppercase;
     letter-spacing: 1px;
+  }
+  
+  .label.highlight {
+    color: var(--primary, #3b82f6);
+    font-weight: 500;
+  }
+
+  .active-card-controls {
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+  }
+
+  select {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 8px;
+    border-radius: 6px;
+    font-family: Roboto, sans-serif;
+    font-size: 1rem;
+    width: 100%;
+    outline: none;
+    cursor: pointer;
+  }
+
+  select:focus {
+    border-color: var(--primary, #3b82f6);
+  }
+
+  select option {
+    background: hsla(220, 7%, 17%, 1);
+    color: white;
+  }
+
+  small {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: Roboto, sans-serif;
   }
 
   .buttons {
