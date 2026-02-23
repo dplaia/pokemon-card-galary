@@ -386,13 +386,14 @@
     }
   }
 
+  $: {
+    // reactive update for front_img when img changes
+    front_img = img_base + img;
+  }
+
   onMount(() => {
 
     debugCardEffects = window.localStorage.getItem("debugCardEffects") === "1";
-
-    // set the front image on mount so that
-    // the lazyloading can work correctly
-    front_img = img_base + img;
 
     // run a cute little animation on load
     // for showcase card

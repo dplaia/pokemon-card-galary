@@ -96,18 +96,18 @@
     return typeof v !== "undefined" && Array.isArray(v);
   }
 
-  function cardImage () {
-    if ( isDefined( id ) ) {
-      return `/images/cards/${id}.png`;
-    }
+  $: computedImg = (function() {
     if ( isDefined( img ) ) {
       return img;
     }
+    if ( isDefined( id ) ) {
+      return `/images/cards/${id}.png`;
+    }
     if ( isDefined( set ) && isDefined( number ) ) {
-      return `https://images.pokemontcg.io/${ set.toLowerCase() }/${ number }_hires.png`;
+      return `https://images.pokemontcg.io/${ String(set).toLowerCase() }/${ number }_hires.png`;
     }
     return "";
-  }
+  })();
   
   function foilMaskImage ( prop, type = "masks" ) {
 
@@ -348,7 +348,7 @@
 </script>
 
 <Card
-  img={cardImage()}
+  img={computedImg}
   back={back}
   foil={foilImage()}
   mask={maskImage()}

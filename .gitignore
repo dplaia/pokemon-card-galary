@@ -24,3 +24,8 @@ public/img/foils/
 *.njsproj
 *.sln
 *.sw?
+
+
+
+*.png
+*.svg
